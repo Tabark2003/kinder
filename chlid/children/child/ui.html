@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>روضة رعاية الطفولة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #ffe6e6, #fff8dc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px 10px;
+    }
+
+    .logo {
+      width: 180px;
+      margin-bottom: 10px;
+      animation: bounce 2s infinite;
+      border-radius: 10px;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      color: #ff6f61;
+      font-size: 2.5em;
+      margin: 10px 0 30px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 40px;
+      width: 250px;
+      animation: fadeIn 2s ease-in-out 1s both;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 20px;
+      background-color: #fff3cd;
+      color: #444;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffe066;
+      transform: scale(1.05);
+      color: #d35400;
+    }
+
+    .kids-images {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      animation: fadeIn 2s ease-in-out 1.5s both;
+    }
+
+    .kids-images img {
+      width: 120px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 15px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- الشعار الجديد -->
+        <img src="ee.png" width= "200" height="200"/>
+    <h1>روضة رعاية الطفولة 🌟</h1>
+  </header>
+
+  <div class="buttons">
+    <button onclick="location.href='tt.html'">تسجيل طفل</button>
+    <button onclick="location.href='aa.html'">📄 طلب توظيف</button>
+    <button onclick="location.href='aaa.html'">📄 الحضانه</button>
+     <button onclick="location.href='mmm.html'">📄 الاموال</button>
+  </div>
+
+ 
+  <footer>© 2025 روضة رعاية الطفولة - جميع الحقوق محفوظة</footer>
+
+  <script>
+    function goToRegister() {
+      window.location.href = "student-form.html"; // غيّري حسب اسم صفحة تسجيل الطفل
+    }
+
+    function goToJob() {
+      window.location.href = "jobs.html";
+      function goToaa() {
+      window.location.href = ".html"; }
+      function goToJob() {
+      window.location.href = "jobs.html";  }// غيّري حسب اسم صفحة التوظيف
+    }
+  </script>
+
+</body>
+</html>

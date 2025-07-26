@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>استمارة الحضانة مع طباعة وتصدير</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fff;
+      padding: 20px;
+      direction: rtl;
+    }
+    .form-container {
+      border: 2px solid black;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 120px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    label {
+      display: inline-block;
+      width: 150px;
+      margin-bottom: 10px;
+    }
+    input[type="text"] {
+      width: 300px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    .section {
+      margin-top: 30px;
+    }
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .sensitivity input {
+      margin-left: 5px;
+    }
+    .note {
+      color: red;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-top: 10px;
+    }
+    .btn-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 30px;
+      margin: 10px;
+      background-color: #0b6cbb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #084c85;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <div class="header">
+        <img src="ee.png" width= "200" height="100"/>
+    <h2>استمارة خاصة بالحضانة</h2>
+  </div>
+
+  <form id="nurseryForm">
+    <label>اسم الطفل:</label><input type="text" name="childName"><br>
+    <label>تاريخ الميلاد:</label><input type="text" name="dob"><br>
+    <label>اسم الأب:</label><input type="text" name="fatherName"><br>
+    <label>مكان العمل (الأب):</label><input type="text" name="fatherJob"><br>
+    <label>رقم الأب:</label><input type="text" name="fatherPhone"><br>
+    <label>اسم الأم:</label><input type="text" name="motherName"><br>
+    <label>مكان العمل (الأم):</label><input type="text" name="motherJob"><br>
+    <label>رقم الأم:</label><input type="text" name="motherPhone"><br>
+
+    <div class="section">
+      <div class="section-title">في حالة الطوارئ، عدم التمكن من الوصول إلى الوالدين يمكن الاتصال بـ:</div>
+      <label>الاسم:</label><input type="text" name="emergencyName"><br>
+      <label>صلة القرابة:</label><input type="text" name="relation"><br>
+      <label>رقم الهاتف:</label><input type="text" name="emergencyPhone"><br>
+    </div>
+
+    <div class="section">
+      <div class="section-title">متطلبات الطفل بالحضانة:</div>
+      <label>نوع الحليب:</label><input type="text" name="milkType"><br>
+      <label>نوع البامبرز:</label><input type="text" name="diaperType"><br>
+      <label>استعمال كلينكس مبلل:</label><input type="text" name="wipes"><br>
+      <label>نوع الأطعمة الممنوعة:</label><input type="text" name="forbiddenFood"><br>
+    </div>
+
+    <div class="section sensitivity">
+      <div class="section-title">حساسيات الطفل:</div>
+      <label><input type="checkbox" name="allergy" value="طعام">حساسية طعام</label>
+      <label><input type="checkbox" name="allergy" value="دوائية">حساسية دوائية</label>
+      <label><input type="checkbox" name="allergy" value="جلدية">حساسية جلدية</label>
+      <label><input type="checkbox" name="allergy" value="عطور">حساسية عطور</label>
+    </div>
+
+    <div class="note">
+      * الالتزام بجلب الحليب الخاص بالطفل والرضاعات والملاعق والبامبرز وغيارات للطفل والأدوية المستخدمة في حالة الطوارئ.
+    </div>
+
+    <label>ملاحظات ولي الأمر:</label><br>
+    <textarea name="notes"></textarea>
+
+    <div class="btn-container">
+      <button type="submit">إرسال</button>
+      <button type="button" id="printBtn">طباعة</button>
+      <button type="button" id="exportBtn">تصدير إلى SQLite</button>
+    </div>
+  </form>
+</div>
+<!-- تضمين مكتبة SQL.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
+<script>
+  // التعامل مع حدث الإرسال للنموذج
+  document.getElementById("nurseryForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    alert("تم إرسال الاستمارة بنجاح ✅");
+  });
+
+  // زر الطباعة يقوم بتشغيل window.print()
+  document.getElementById("printBtn").addEventListener("click", function() {
+    window.print();
+  });
+
+  // تهيئة مكتبة SQL.js وإنشاء قاعدة بيانات في المتصفح
+  let SQL;
+  let db;
+
+  initSqlJs({ locateFile: file => https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file} })
+    .then(function(SQLLib) {
+      SQL = SQLLib;
+      // إنشاء قاعدة بيانات جديدة وإنشاء جدول لتخزين بيانات الاستمارة
+      db = new SQL.Database();
+      db.run(CREATE TABLE IF NOT EXISTS nursery_form (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        childName TEXT,
+        dob TEXT,
+        fatherName TEXT,
+        fatherJob TEXT,
+        fatherPhone TEXT,
+        motherName TEXT,
+        motherJob TEXT,
+        motherPhone TEXT,
+        emergencyName TEXT,
+        relation TEXT,
+        emergencyPhone TEXT,
+        milkType TEXT,
+        diaperType TEXT,
+        wipes TEXT,
+        forbiddenFood TEXT,
+        allergies TEXT,
+        notes TEXT
+      ););
+    })
+    .catch(err => {
+      console.error("لم تتم تهيئة SQL.js:", err);
+    });
+
+  // زر التصدير إلى SQLite: تجميع بيانات النموذج وإدراجها في الجدول ثم تحميل ملف قاعدة البيانات
+  document.getElementById("exportBtn").addEventListener("click", function() {
+    // تجميع البيانات من النموذج
+    const formData = new FormData(document.getElementById("nurseryForm"));
+    const allergies = [];
+    // التعامل مع حقول الحساسية (تجميع القيم المختارة)
+    document.querySelectorAll("input[name='allergy']:checked").forEach(el => {
+      allergies.push(el.value);
+    });
+    // دالة مساعدة لجلب قيمة الحقل أو فراغ إذا لم يوجد
+    const getValue = name => formData.get(name) || "";
+    
+    // إدراج البيانات في جدول nursery_form
+    const stmt = db.prepare(INSERT INTO nursery_form (
+      childName, dob, fatherName, fatherJob, fatherPhone,
+      motherName, motherJob, motherPhone, emergencyName,
+      relation, emergencyPhone, milkType, diaperType, wipes,
+      forbiddenFood, allergies, notes
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?););
+
+    stmt.run([
+      getValue("childName"),
+      getValue("dob"),
+      getValue("fatherName"),
+      getValue("fatherJob"),
+      getValue("fatherPhone"),
+      getValue("motherName"),
+      getValue("motherJob"),
+      getValue("motherPhone"),
+      getValue("emergencyName"),
+      getValue("relation"),
+      getValue("emergencyPhone"),
+      getValue("milkType"),
+      getValue("diaperType"),
+      getValue("wipes"),
+      getValue("forbiddenFood"),
+      allergies.join(", "),
+      getValue("notes")
+    ]);
+    stmt.free();
+
+    // تصدير قاعدة البيانات إلى ملف ثنائي وتحميله
+    const binaryArray = db.export();
+    const blob = new Blob([binaryArray], {type: "application/octet-stream"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "nursery_form.sqlite";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    alert("تم تصدير البيانات إلى ملف SQLite ✅");
+  });
+</script>
+
+<button onclick="history.back()" style="padding: 10px 20px; background-color: #ffb347; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  ⬅️ رجوع
+</button>
+  <a href="qq.html">التالي</a>
+
+</body>
+</html>

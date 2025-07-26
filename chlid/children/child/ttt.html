@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>استمارة المعلومات الصحية والعائلية</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f1f5f9;
+      padding: 20px;
+      direction: rtl;
+    }
+
+    .form-container {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 850px;
+      margin: auto;
+      background: #ffffff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-header h3 {
+      margin-bottom: 5px;
+      color: #1e293b;
+    }
+
+    .form-header p {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .form-header img {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 100px;
+    }
+
+    .form-section {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #334155;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background-color: #f8fafc;
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+      color: #475569;
+    }
+
+    .notes {
+      font-size: 14px;
+      margin-top: 20px;
+      line-height: 1.6;
+      color: #475569;
+    }
+
+    .button-group {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      background-color: #0ea5e9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0284c7;
+    }
+
+    hr {
+      border: 1px dashed #cbd5e1;
+      margin: 30px 0;
+    }
+  </style>
+
+  <!-- SheetJS لتحويل البيانات إلى Excel -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="form-container">
+      <img src="ee.png" width= "200" height="200"/>
+  <div class="form-header">
+    <h3>استمارة المعلومات الصحية والعائلية</h3>
+    <p>* المعلومات تحفظ بسرية تامة ولا يطلع عليها غير المعنيين</p>
+  </div>
+
+  <div class="form-section">
+    <strong>المعلومات العامة:</strong>
+    <label>اسم التلميذ الثلاثي: <input type="text" id="studentName" /></label>
+    <label>رقم الهوية: <input type="text" id="idNumber" /></label>
+    <label>تاريخ الميلاد: <input type="date" id="birthDate" /></label>
+    <label>اسم الأب: <input type="text" id="fatherName" /></label>
+    <label>رقم هاتف الأب: <input type="text" id="fatherPhone" /></label>
+    <label>اسم الأم: <input type="text" id="motherName" /></label>
+    <label>رقم هاتف الأم: <input type="text" id="motherPhone" /></label>
+    <label>عنوان السكن: <input type="text" id="address" /></label>
+  </div>
+
+  <hr>
+
+  <div class="form-section">
+    <strong>المعلومات العائلية:</strong>
+    <div class="radio-group">
+      <label>هل يعاني أحد من أمراض مزمنة؟
+        <input type="radio" name="familyChronic" value="نعم"> نعم
+        <input type="radio" name="familyChronic" value="لا"> لا
+      </label>
+      <label>هل توجد حالات وفاة وراثية؟
+        <input type="radio" name="geneticDeath" value="نعم"> نعم
+        <input type="radio" name="geneticDeath" value="لا"> لا
+      </label>
+    </div>
+    <label>نوع المرض إن وجد: <input type="text" id="familyDisease" /></label>
+    <label>هل الطفل يعاني من:
+      <div class="checkbox-group">
+        <label><input type="checkbox" class="childCondition" value="حساسية" /> حساسية</label>
+        <label><input type="checkbox" class="childCondition" value="صرع" /> صرع</label>
+        <label><input type="checkbox" class="childCondition" value="توحد" /> توحد</label>
+        <label><input type="checkbox" class="childCondition" value="تأتأة" /> تأتأة</label>
+        <label><input type="checkbox" class="childCondition" value="فرط حركة" /> فرط حركة</label>
+        <label><input type="checkbox" class="childCondition" value="مشاكل سمع" /> مشاكل سمع</label>
+        <label><input type="checkbox" class="childCondition" value="مشاكل نظر" /> مشاكل نظر</label>
+        <label><input type="checkbox" class="childCondition" value="مشاكل نطق" /> مشاكل نطق</label>
+      </div>
+    </label>
+  </div>
+
+  <hr>
+
+  <div class="form-section">
+    <strong>الحالة الصحية للطالب:</strong>
+    <div class="radio-group">
+      <label><input type="radio" name="healthStatus" value="سليم" /> سليم</label>
+      <label><input type="radio" name="healthStatus" value="مريض" /> مريض</label>
+    </div>
+    <label>نوع المرض إن وجد: <input type="text" id="illnessType" /></label>
+  </div>
+
+  <div class="notes">
+    <p>* أتعهد بصحة المعلومات المذكورة، وفي حال الطوارئ أوافق على الإجراءات اللازمة.</p>
+    <p>توقيع ولي الأمر: __ التاريخ: __</p>
+  </div>
+
+  <div class="button-group">
+    <button onclick="window.print()">🖨 طباعة</button>
+    <button onclick="saveStudent()">💾 حفظ الطالب</button>
+    <button onclick="exportAll()">📥 تصدير كل الطلاب</button>
+  </div>
+</div>
+
+<script>
+  function getFormData() {
+    const data = {};
+    document.querySelectorAll("input").forEach(input => {
+      const id = input.id || input.name + input.value;
+      if (input.type === "radio" || input.type === "checkbox") {
+        if (input.checked) {
+          if (data[id]) {
+            data[id] += "، " + input.value;
+          } else {
+            data[id] = input.value;
+          }
+        }
+      } else {
+        data[id] = input.value;
+      }
+    });
+    return data;
+  }
+
+  function saveStudent() {
+    const student = getFormData();
+    let all = JSON.parse(localStorage.getItem("students") || "[]");
+    all.push(student);
+    localStorage.setItem("students", JSON.stringify(all));
+    alert("✅ تم حفظ بيانات الطالب بنجاح");
+  }
+
+  function exportAll() {
+    const all = JSON.parse(localStorage.getItem("students") || "[]");
+    if (all.length === 0) return alert("⚠️ لا توجد بيانات محفوظة!");
+
+    const worksheet = XLSX.utils.json_to_sheet(all);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "الطلاب");
+
+    XLSX.writeFile(workbook, "بيانات_الطلاب.xlsx");
+  }
+</script>
+<button onclick="history.back()" style="padding: 10px 20px; background-color: #ffb347; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  ⬅️ رجوع
+</button>
+  <button onclick="location.href='qq.html'" style="padding: 10px 20px; font-size: 16px;">التالي</button>
+</body>
+</html>

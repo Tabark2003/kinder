@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل أطفال الروضة</title>
+  <style>
+    body { font-family: 'Arial', sans-serif; background: #f4f4f4; padding: 40px; }
+    form, table { background: white; padding: 20px; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    input, select { width: 100%; margin: 8px 0; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+    button { background: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+    th { background-color: #007BFF; color: white; }
+  </style>
+</head>
+<body>
+
+  <h2>📋 تسجيل طفل</h2>
+  <form method="POST" action="/submit">
+    <input type="text" name="name" placeholder="اسم الطفل" required />
+    <input type="text" name="guardian" placeholder="ولي الأمر" required />
+    <input type="number" name="amount" placeholder="المبلغ المدفوع" required />
+    
+    <select name="studyType" required>
+      <option value="">اختر نوع الدراسة</option>
+      <option value="صباحي">صباحي</option>
+      <option value="مسائي">مسائي</option>
+    </select>
+
+    <select name="subscriptionType" required>
+      <option value="">اختر نوع الاشتراك</option>
+      <option value="يومي">يومي</option>
+      <option value="أسبوعي">أسبوعي</option>
+      <option value="نصف شهري">نصف شهري</option>
+      <option value="شهري">شهري</option>
+    </select>
+
+    <button type="submit">حفظ البيانات</button>
+  </form>
+
+  <h2>📑 قائمة الأطفال المسجلين</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>اسم الطفل</th>
+        <th>ولي الأمر</th>
+        <th>المبلغ المدفوع</th>
+        <th>نوع الدراسة</th>
+        <th>نوع الاشتراك</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for child in children %}
+      <tr>
+        <td>{{ child[1] }}</td>
+        <td>{{ child[2] }}</td>
+        <td>{{ child[3] }}</td>
+        <td>{{ child[4] }}</td>
+        <td>{{ child[5] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+</html>

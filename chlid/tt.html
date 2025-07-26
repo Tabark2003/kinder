@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>استمارة تسجيل</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    .form-container {
+      border: 2px solid black;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      position: relative;
+    }
+    .form-header { text-align: center; margin-bottom: 10px; }
+    .form-header img {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 100px;
+    }
+    .form-section { margin-bottom: 20px; }
+    .form-section label, .form-section span {
+      display: block; margin: 5px 0;
+    }
+    input[type="text"], input[type="date"], input[type="tel"] {
+      width: 100%; padding: 5px; margin: 5px 0;
+    }
+    .radio-group {
+      display: flex; gap: 15px; flex-wrap: wrap; margin-top: 5px;
+    }
+    .photo-box {
+      border: 1px solid #000;
+      width: 80px; height: 100px;
+      position: absolute; top: 20px; left: 20px;
+    }
+    .notes { color: red; font-size: 0.9em; margin-top: 10px; }
+    .button-group { text-align: center; margin-top: 20px; }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container" id="formContainer">
+    <div class="photo-box"></div>
+    <img src="ee.png" width= "200" height="200"/>
+    <div class="form-header">
+      <h3>استمارة تسجيل للطلاب بالروضة</h3>
+    </div>
+
+    <!-- البيانات الأساسية -->
+    <div class="form-section">
+      <label>اسم الروضة: <input type="text" id="nurseryName" /></label>
+      <label>تاريخ التسجيل: <input type="date" id="registerDate" /></label>
+    </div>
+
+    <hr />
+
+    <!-- بيانات الطالب -->
+    <div class="form-section">
+      <strong>بيانات الطالب</strong>
+      <label>الاسم: <input type="text" id="studentName" /></label>
+      <label>تاريخ الميلاد: <input type="date" id="birthDate" /></label>
+      <div class="radio-group">
+        <label><input type="radio" name="level" value="تمهيدي" /> تمهيدي</label>
+        <label><input type="radio" name="level" value="تحضيري" /> تحضيري</label>
+        <label><input type="radio" name="level" value="روضة" /> روضة</label>
+        <label><input type="radio" name="level" value="حضانة" /> حضانة</label>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- بيانات الوالدين -->
+    <div class="form-section">
+      <strong>بيانات الوالدين</strong>
+      <label>اسم الأب: <input type="text" id="fatherName" /></label>
+      <label>جهة عمل الأب: <input type="text" id="fatherJob" /></label>
+      <label>رقم هاتف الأب: <input type="tel" id="fatherPhone" /></label>
+      <label>اسم الأم: <input type="text" id="motherName" /></label>
+      <label>جهة عمل الأم: <input type="text" id="motherJob" /></label>
+      <label>رقم هاتف الأم: <input type="tel" id="motherPhone" /></label>
+      <div class="radio-group">
+        <span>الطفل يمكن أخذه من قبل:</span>
+        <label><input type="checkbox" value="الأب" class="pickup" /> الأب</label>
+        <label><input type="checkbox" value="الأم" class="pickup" /> الأم</label>
+        <label><input type="checkbox" value="الوالدين" class="pickup" /> الوالدين</label>
+        <label><input type="checkbox" value="أخرى" class="pickup" /> أخرى</label>
+      </div>
+      <label>الاسم: <input type="text" id="pickupName" /></label>
+      <label>صلة القرابة: <input type="text" id="relation" /></label>
+    </div>
+
+    <hr />
+
+    <!-- عنوان الطالب -->
+    <div class="form-section">
+      <strong>عنوان الطالب</strong>
+      <label>الحي: <input type="text" id="district" />، اسم المختار: <input type="text" id="mokhtar" />، رقم: <input type="text" id="houseNumber" /></label>
+<label>رقم بطاقة السكن: <input type="text" id="cardNumber" /></label>
+      <div class="radio-group">
+        <span>وسيلة النقل:</span>
+        <label><input type="radio" name="transport" value="سيارة خاصة" /> سيارة خاصة</label>
+        <label><input type="radio" name="transport" value="خطوط الروضة" /> خطوط الروضة</label>
+        <label><input type="radio" name="transport" value="أخرى" /> أخرى</label>
+      </div>
+      <label>اسم السائق: <input type="text" id="driverName" />، رقمه: <input type="tel" id="driverPhone" /></label>
+    </div>
+
+    <div class="notes">
+      <p>ملاحظة: في حال عدم سداد الرسوم خلال أسبوع من تاريخ الاستحقاق يعتبر الطفل غير مسجل بالروضة.</p>
+      <p>ملاحظة: لا يُرجع المبلغ بعد مرور ٣ أيام على التسجيل.</p>
+    </div>
+
+    <div class="button-group">
+      <button onclick="window.print()">🖨 طباعة</button>
+      <button onclick="saveStudent()">💾 حفظ الطالب</button>
+      <button onclick="exportExcel()">📤 تصدير إلى Excel (xlsx)</button>
+      
+    </div>
+  </div>
+
+  <script>
+    function getData() {
+      return {
+        nursery: document.getElementById("nurseryName").value,
+        registerDate: document.getElementById("registerDate").value,
+        studentName: document.getElementById("studentName").value,
+        birthDate: document.getElementById("birthDate").value,
+        level: document.querySelector('input[name="level"]:checked')?.value || "",
+        fatherName: document.getElementById("fatherName").value,
+        fatherJob: document.getElementById("fatherJob").value,
+        fatherPhone: document.getElementById("fatherPhone").value,
+        motherName: document.getElementById("motherName").value,
+        motherJob: document.getElementById("motherJob").value,
+        motherPhone: document.getElementById("motherPhone").value,
+        pickup: Array.from(document.querySelectorAll(".pickup:checked")).map(el => el.value).join(" / "),
+        pickupName: document.getElementById("pickupName").value,
+        relation: document.getElementById("relation").value,
+        district: document.getElementById("district").value,
+        mokhtar: document.getElementById("mokhtar").value,
+        houseNumber: document.getElementById("houseNumber").value,
+        cardNumber: document.getElementById("cardNumber").value,
+        transport: document.querySelector('input[name="transport"]:checked')?.value || "",
+        driverName: document.getElementById("driverName").value,
+        driverPhone: document.getElementById("driverPhone").value,
+      };
+    }
+
+    function saveStudent() {
+      const student = getData();
+      const students = JSON.parse(localStorage.getItem("students") || "[]");
+      students.push(student);
+      localStorage.setItem("students", JSON.stringify(students));
+      alert("✅ تم حفظ بيانات الطالب");
+    }
+
+    function exportExcel() {
+      const students = JSON.parse(localStorage.getItem("students") || "[]");
+      if (students.length === 0) return alert("⚠️ لا توجد بيانات محفوظة!");
+      const ws = XLSX.utils.json_to_sheet(students);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "الطلاب");
+      XLSX.writeFile(wb, "استمارات_التسجيل.xlsx");
+    }
+  </script>
+
+<button onclick="history.back()" style="padding: 10px 20px; background-color: #ffb347; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  ⬅️ رجوع
+</button>
+  <button onclick="location.href='ttt.html'" style="padding: 10px 20px; font-size: 16px;">التالي</button>
+</body>
+</html>

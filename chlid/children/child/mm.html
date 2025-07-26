@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الصادرات والواردات</title>
+</head>
+<body>
+    <h2>إدخال البيانات</h2>
+    <form method="POST">
+        <label>حفلة التخرج:</label>
+        <select name="graduation">
+            <option value="مجانية">مجانية</option>
+            <option value="مدفوعة">مدفوعة</option>
+        </select><br><br>
+
+        <label>حفلات دينية:</label>
+        <input type="number" name="religion" value="0"><br><br>
+
+        <label>الصيانة:</label>
+        <input type="number" name="maintenance" value="0"><br><br>
+
+        <label>رواتب الموظفين:</label>
+        <input type="number" name="salaries" value="0"><br><br>
+
+        <label>أمور أخرى:</label>
+        <input type="number" name="others" value="0"><br><br>
+
+        <button type="submit">إضافة</button>
+    </form>
+
+    <hr>
+
+    <h3>الإحصائيات:</h3>
+    <p>📈 الإيرادات: {{ income }} د.ع</p>
+    <p>📉 المصروفات: {{ outcome }} د.ع</p>
+    <p>💰 الربح / الخسارة: {{ profit }} د.ع</p>
+
+    <a href="{{ url_for('index') }}">🔙 رجوع للرئيسية</a>
+</body>
+</html>

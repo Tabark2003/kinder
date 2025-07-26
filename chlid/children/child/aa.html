@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>استمارة التقديم للوظيفة</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fff;
+      padding: 20px;
+    }
+
+    .form-container {
+      border: 2px solid black;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      width: 120px;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      font-size: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    label {
+      width: 180px;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 30px;
+      margin: 10px;
+      background-color: #0b6cbb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #084c85;
+    }
+
+    .footer {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container" id="formContent">
+  <div class="header">
+        <img src="ee.png" width= "500" height="100"/>
+    <h2>روضة كادي الأهلية<br>حضانة روضة تمهيدي</h2>
+    <h2>استمارة التقديم للوظيفة</h2>
+  </div>
+
+  <form id="jobForm">
+    <div class="row"><label>الاسم الثلاثي واللقب:</label><input type="text" name="fullname"></div>
+    <div class="row"><label>التحصيل الدراسي:</label><input type="text" name="education"></div>
+    <div class="row"><label>سنة التخرج والتقدير:</label><input type="text" name="grad_year"></div>
+    <div class="row"><label>عنوان السكن:</label><input type="text" name="address"></div>
+    <div class="row"><label>محل وتاريخ الولادة:</label><input type="text" name="birth"></div>
+    <div class="row"><label>الحالة الاجتماعية:</label><input type="text" name="status"></div>
+    <div class="row"><label>مكان العمل إن وجد سابقًا:</label><input type="text" name="prev_job"></div>
+    <div class="row"><label>العمل على الحاسوب:</label><input type="text" name="computer"></div>
+    <div class="row"><label>الدورات والمشاركات:</label><input type="text" name="courses"></div>
+    <div class="row"><label>رقم الموبايل:</label><input type="text" name="mobile"></div>
+    <div class="row"><label>الملاحظات:</label><input type="text" name="notes"></div>
+    <div class="row"><label>اللغة الإنجليزية:</label><input type="text" name="english"></div>
+
+    <h3 style="text-align:center;">خاص بلجنة المقابلة حصراً</h3>
+
+    <table>
+      <tr>
+        <th>الأسلوب<br>٪20</th>
+        <th>الشخصية<br>٪20</th>
+        <th>الطبية<br>٪20</th>
+        <th>طرائق تدريس<br>٪20</th>
+        <th>المجموع<br>من 100</th>
+        <th>النتيجة</th>
+      </tr>
+      <tr>
+        <td><input type="text" name="style" style="width: 60px;"></td>
+        <td><input type="text" name="personality" style="width: 60px;"></td>
+        <td><input type="text" name="health" style="width: 60px;"></td>
+        <td><input type="text" name="methods" style="width: 60px;"></td>
+        <td><input type="text" name="total" style="width: 60px;"></td>
+        <td><input type="text" name="result" style="width: 80px;"></td>
+      </tr>
+    </table>
+
+    <div class="footer">
+      <span>مديرة الروضة</span>
+      <span>المشرف العام للروضة</span>
+    </div>
+
+    <div class="buttons">
+      <button type="submit">إرسال</button>
+      <button type="button" onclick="window.print()">طباعة</button>
+      <button type="button" id="exportBtn">تصدير إلى SQLite</button>
+    </div>
+  </form>
+</div>
+<!-- مكتبة SQL.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
+<script>
+  let db;
+
+  initSqlJs({ locateFile: file => https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file} })
+    .then(SQL => {
+      db = new SQL.Database();
+      db.run(CREATE TABLE IF NOT EXISTS job_application (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fullname TEXT, education TEXT, grad_year TEXT, address TEXT,
+        birth TEXT, status TEXT, prev_job TEXT, computer TEXT,
+        courses TEXT, mobile TEXT, notes TEXT, english TEXT,
+        style TEXT, personality TEXT, health TEXT, methods TEXT,
+        total TEXT, result TEXT
+      ););
+    });
+
+  document.getElementById("jobForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    alert("تم إرسال الاستمارة بنجاح ✅");
+  });
+
+  document.getElementById("exportBtn").addEventListener("click", function() {
+    const form = document.getElementById("jobForm");
+    const data = new FormData(form);
+    const get = name => data.get(name) || "";
+
+    const stmt = db.prepare(INSERT INTO job_application (
+      fullname, education, grad_year, address, birth,
+      status, prev_job, computer, courses, mobile,
+      notes, english, style, personality, health,
+      methods, total, result
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?));
+    
+    stmt.run([
+      get("fullname"), get("education"), get("grad_year"), get("address"),
+      get("birth"), get("status"), get("prev_job"), get("computer"),
+      get("courses"), get("mobile"), get("notes"), get("english"),
+      get("style"), get("personality"), get("health"), get("methods"),
+      get("total"), get("result")
+    ]);
+    stmt.free();
+
+    const binaryArray = db.export();
+    const blob = new Blob([binaryArray], {type: "application/octet-stream"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "job_application.sqlite";
+    a.click();
+  });
+</script>
+<button onclick="history.back()" style="padding: 10px 20px; background-color: #ffb347; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  ⬅️ رجوع
+</button>
+  <a href="qq.html">التالي</a>
+
+
+</body>
+</html>

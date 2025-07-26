@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>ملخص الأموال</title>
+  <style>
+    body { font-family: Arial; background: #f0f0f0; padding: 20px; direction: rtl; }
+    .box { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 0 10px #ccc; }
+    .item { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .net { font-weight: bold; color: green; font-size: 18px; text-align: center; margin-top: 20px; }
+    button { padding: 10px; margin-top: 15px; background: #007bff; color: white; border: none; border-radius: 5px; width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>ملخص الأموال</h2>
+    <div class="item"><span>تسجيل الأطفال:</span><span id="registration">0</span> د.ع</div>
+    <div class="item"><span>حفلات:</span><span id="graduation">0</span> د.ع</div>
+    <div class="item"><span>مناسبات دينية:</span><span id="religious">0</span> د.ع</div>
+    <div class="item"><span>صيانة:</span><span id="maintenance">0</span> د.ع</div>
+    <div class="item"><span>رواتب:</span><span id="salaries">0</span> د.ع</div>
+    <div class="item"><span>أثاث:</span><span id="furniture">0</span> د.ع</div>
+    <div class="item"><span>مصاريف أخرى:</span><span id="others">0</span> د.ع</div>
+    <div class="net">المبلغ الصافي: <span id="net">0</span> د.ع</div>
+    <button onclick="loadData()">تحديث</button>
+  </div>
+  <script>
+    function loadData() {
+      let registration = parseFloat(localStorage.getItem("registration") || 0);
+      let graduation = parseFloat(localStorage.getItem("graduation") || 0);
+      let religious = parseFloat(localStorage.getItem("religious") || 0);
+      let maintenance = parseFloat(localStorage.getItem("maintenance") || 0);
+      let salaries = parseFloat(localStorage.getItem("salaries") || 0);
+      let furniture = parseFloat(localStorage.getItem("furniture") || 0);
+      let others = parseFloat(localStorage.getItem("others") || 0);
+
+      document.getElementById("registration").innerText = registration.toLocaleString();
+      document.getElementById("graduation").innerText = graduation.toLocaleString();
+      document.getElementById("religious").innerText = religious.toLocaleString();
+      document.getElementById("maintenance").innerText = maintenance.toLocaleString();
+      document.getElementById("salaries").innerText = salaries.toLocaleString();
+      document.getElementById("furniture").innerText = furniture.toLocaleString();
+      document.getElementById("others").innerText = others.toLocaleString();
+
+      let totalExpenses = graduation + religious + maintenance + salaries + furniture + others;
+      let net = registration - totalExpenses;
+      document.getElementById("net").innerText = net.toLocaleString();
+    }
+
+    window.onload = loadData;
+  </script>
+    <button onclick="location.href='information.html'" style="padding: 10px 20px; font-size: 16px;">التالي</button>
+</body>
+</html>

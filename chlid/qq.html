@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل طفل</title>
+  <style>
+    body { font-family: Arial; background-color: #f2f2f2; padding: 20px; direction: rtl; }
+    .container { background: #fff; padding: 20px; max-width: 600px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
+    label, input, button { display: block; width: 100%; margin-bottom: 10px; }
+    button { background: green; color: #fff; padding: 10px; border: none; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>تسجيل طفل</h2>
+    <form id="childForm">
+      <label>اسم الطفل:</label>
+      <input type="text" id="childName" required>
+      <label>نوع الاشتراك:</label>
+      <select id="subscription">
+        <option value="يومي">يومي</option>
+        <option value="اسبوعي">اسبوعي</option>
+         <option value=" نصف شهري">  نصف شهري </option>
+        <option value="شهري">شهري</option>
+      </select>
+      <label>نوع الدوام:</label>
+      <select id="shift">
+        <option value="صباحي">صباحي</option>
+        <option value="مسائي">مسائي</option>
+      </select>
+      <label>تاريخ الدفع:</label>
+      <input type="date" id="paymentDate" required>
+      <label>مبلغ الدفع (د.ع):</label>
+      <input type="number" id="paymentAmount" required>
+      <button type="submit">حفظ</button>
+    </form>
+    <p id="msg" style="color: green; display:none;">تم الحفظ بنجاح!</p>
+  </div>
+  <script>
+    document.getElementById("childForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const amount = parseFloat(document.getElementById("paymentAmount").value) || 0;
+      const saved = parseFloat(localStorage.getItem("registration") || 0);
+      localStorage.setItem("registration", saved + amount);
+      document.getElementById("msg").style.display = "block";
+      setTimeout(() => { document.getElementById("msg").style.display = "none"; }, 2000);
+      document.getElementById("childForm").reset();
+    });
+    window.onload = () => {
+      document.getElementById("paymentDate").value = new Date().toISOString().split('T')[0];
+    };
+  </script>
+  <button onclick="location.href='inform.html'" style="padding: 10px 20px; font-size: 16px;">التالي</button>
+  <button onclick="history.back()" style="padding: 10px 20px; background-color: #ffb347; color: white; border: none; border-radius: 8px; cursor: pointer;">
+  ⬅️ رجوع
+</button>
+  
+  <button onclick="window.print()">🖨 طباعة</button>
+  <a href="ui.html">
+  <button style="padding: 10px 20px; font-size: 16px; border-radius: 8px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+    ★ الرجوع إلى الواجهة الرئيسية
+  </button>
+   
+</a>
+
+</body>
+</html>

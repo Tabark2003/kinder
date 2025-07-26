@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روضة رعاية الطفولة</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #ffe6e6, #fff5cc);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #d6336c;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ffb703;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #faa307;
+        }
+
+        h2 {
+            color: #0077b6;
+            font-size: 28px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>مرحباً بكم في موقع الروضة</h1>
+    <button id="but">اضغط هنا</button>
+    <h2 id="mk"></h2>
+
+    <script>
+        var but = document.getElementById('but');
+        var mk = document.getElementById('mk');
+        but.addEventListener('click', function(){
+            mk.innerHTML = 'أهلاً بكم في روضة رعاية الطفولة!';
+        });
+    </script>
+</body>
+</html>
